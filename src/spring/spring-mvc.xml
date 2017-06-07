@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="
+       	   http://www.springframework.org/schema/context 
+       	   http://www.springframework.org/schema/context/spring-context-4.0.xsd
+       	   http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+           http://www.springframework.org/schema/mvc
+		   http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+       	   ">
+
+	<!-- springmvc中最基本的配置 开始 -->
+ 	<!-- 扫描controller -->
+	<context:component-scan base-package="com.whir.springmvc.controller"/>
+	<!-- 注解驱动 -->
+	<context:annotation-config/>
+	<!-- 视图解析器 -->
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">  
+	    <property name="prefix" value="/WEB-INF/springmvc/"/>  
+	    <property name="suffix" value=".jsp"/>  
+	</bean>  
+	<!-- springmvc中最基本的配置 结束-->
+	
+	<!-- 拦截器 -->
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/**" />
+			<bean class="com.whir.springmvc.interceptor.SecurityInterceptor">
+		  <!-- 
+			   不需要权限验证的地址  
+		   -->
+				<property name="excludeUrls">
+					<list>
+						<value>user/list</value>   
+						<value>role/list</value> 
+						<value>access/list</value>   
+					</list>
+				</property>
+			</bean>
+		</mvc:interceptor>
+	</mvc:interceptors>
+
+</beans>
